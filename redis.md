@@ -89,3 +89,90 @@ zcard key //计算个数
 ![image text](./pic/慢查询3.png)
 
 ![image text](./pic/慢查询4.png)
+
+##pipeline
+![image text](./pic/pipeline.png)
+
+##bitmap
+![image text](./pic/bitmap.png)
+
+![image text](./pic/bitmap1.png)
+
+![image text](./pic/bitmap2.png)
+
+![image text](./pic/bitmap3.png)
+
+![image text](./pic/bitmap4.png)
+
+##hyperLogLog
+![image text](./pic/hyperLogLog.png)
+
+![image text](./pic/hyperLogLog1.png)
+
+![image text](./pic/hyperLogLog2.png)
+
+![image text](./pic/hyperLogLog3.png)
+
+![image text](./pic/hyperLogLog4.png)
+
+##geo
+![image text](./pic/geo.png)
+
+![image text](./pic/geo1.png)
+
+##redis持久化
+###RDB快照模式
+![image text](./pic/RDB.png)
+触发RDB的三种方式：
+1、执行save命令，这个命令是同步的，会阻塞redis
+2、执行bgsave命令，这个命令是异步执行的，不会阻塞redis
+![image text](./pic/RDB1.png)
+3、自动生成RDB
+![image text](./pic/RDB2.png)
+自动生成配置不当会导致频繁写入RDB文件
+![image text](./pic/RDB3.png)
+
+![image text](./pic/RDB4.png)
+
+![image text](./pic/RDB5.png)
+
+###AOF日志模式
+![image text](./pic/AOF.png)
+
+![image text](./pic/AOF1.png)
+
+AOF的三种策略
+1、always:每条命令都写入AOF文件中
+![image text](./pic/AOF2.png)
+
+2、everysec(默认策略):每秒将缓冲区的数据写入AOF文件中
+![image text](./pic/AOF3.png)
+
+3、no:由操作系统决定什么时候写入AOF文件中
+![image text](./pic/AOF4.png)
+
+AOF重写：将重复的，过期的，覆盖的数据都过滤掉，以实现减少硬盘占用量和加快恢复速度的作用
+![image text](./pic/AOF5.png)
+
+AOF重写触发的两种方式：
+1、bgrewriteaof命令（不是读取aof文件进行重写，而是读取redis在内存中的记录进行重写）
+2、AOF重写配置：auto-aof-rewrite-min-size(尺寸)、auto-aof-rewrite-percentage(增长率)
+![image text](./pic/AOF6.png)
+
+AOF配置
+![image text](./pic/AOF7.png)
+
+###RDB和AOF的对比
+![image text](./pic/RDB&AOF.png)
+
+RDB最佳策略：
+建议关闭RDB，如果是主从模式，主关，从开（但由于redis基本都是单机部署多个redis实例，所以也不能让从机频繁进行RDB）
+
+AOF最佳策略：
+建议开启AOF，everysec策略，最多只丢一秒的数据
+
+**注意：fork函数是一个系统级别的函数，这个函数的作用就是复制当前进程的一个子进程，这对于主进程来说本身就是一个同步的操作，
+是会阻塞redis的，它的耗时时间与当前redis占用的内存量息息相关，内存占用越大，耗时越长。**
+![image text](./pic/AOF8.png)
+
+![image text](./pic/AOF9.png)
