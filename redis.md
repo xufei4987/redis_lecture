@@ -7,7 +7,7 @@
  * 6、简单：核心代码少（23k），单线程模型
  * 7、主从复制
  * 8、高可用以及分布式 sentinel 、 cluster
- 
+
 ##redis典型应用场景
   缓存、计数、消息队列、排行榜、社交网络、实时系统
 
@@ -22,7 +22,7 @@
  * 4、del(删除key)
  * 5、expire key seconds（在多少秒后过期） ttl key（查看剩余过期时间） persist key（取消过期，持久化）
  * 6、type key（返回key的类型）
- 
+
 ##数据结构
 ![image text](./pic/数据结构与内部编码.png)
 
@@ -35,7 +35,7 @@
  * 一次只运行一条命令
  * 拒绝执行长命令（会阻塞后面的操作）
  * 其实不是单线程（有独立的线程进行持久化操作）
- 
+
 ##String类型
 ![image text](./pic/set命令.png)
 incr key
@@ -176,3 +176,88 @@ AOF最佳策略：
 ![image text](./pic/AOF8.png)
 
 ![image text](./pic/AOF9.png)
+
+##redis sentinel
+![image text](./pic/sentinel.png)
+
+
+
+![image text](./pic/sentinel1.png)
+
+
+
+![image text](./pic/sentinel2.png)
+
+
+
+raft算法![image text](./pic/sentinel3.png)
+
+
+
+![image text](./pic/sentinel4.png)
+
+
+
+![image text](./pic/sentinel5.png)
+
+
+
+![image text](./pic/sentinel6.png)
+
+
+
+**sentinel总结**
+
+![image text](./pic/sentinel7.png)
+
+![image text](./pic/sentinel8.png)
+
+![image text](./pic/sentinel9.png)
+
+## redis cluster
+
+redis cluster的特点：主从复制，分片，高可用
+
+### 数据分布
+
+1、节点取余分区
+
+![image text](./pic/cluster.png)
+
+节点伸缩会导致数据迁移，翻倍扩容可以减少迁移量至50%
+
+2、一致性哈希分区
+
+![image text](./pic/cluster1.png)
+
+3、虚拟槽分区（redis使用的分区方式）
+
+![image text](./pic/cluster2.png)
+
+![image text](./pic/cluster3.png)
+
+**原生命令安装搭建集群：**
+
+1）配置开启节点：cluster-enabled yes、cluster-config-file node-${port}.conf
+
+需要6个节点，3主3备
+
+2）meet：命令cluster meet ip port，例如redis-cli -h 127.0.0.1 -p 7000 cluster meet 127.0.0.1 7001
+
+3）指派槽
+
+![image text](./pic/cluster4.png)
+
+4）主从
+
+![image text](./pic/cluster5.png)
+
+**官方工具安装搭建集群：**
+
+![image text](./pic/cluster6.png)
+
+![image text](./pic/cluster7.png)
+
+![image text](./pic/cluster8.png)
+
+![image text](./pic/cluster9.png)
