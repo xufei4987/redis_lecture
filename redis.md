@@ -261,3 +261,37 @@ redis cluster的特点：主从复制，分片，高可用
 ![image text](./pic/cluster8.png)
 
 ![image text](./pic/cluster9.png)
+
+**集群伸缩：**
+原理：槽和数据在节点间的移动
+
+集群扩容：
+1、准备新的节点
+
+2、加入集群
+![image text](./pic/cluster10.png)
+
+3、迁移槽和数据
+redis-trib.rb 的 reshard命令
+
+集群收缩：
+1、下线迁移槽
+redis-trib.rb 的 reshard命令
+
+2、忘记节点
+cluster forget ${downNodeId}
+redis-trib.rb 的 del-node命令
+
+3、关闭节点
+
+**redis客户端路由**
+1、moved重定向异常：
+redis-cli如果没有加-c参数就不是集群模式登录，如果没有直接命中槽将会出现moved异常，该异常会告知该key所在的目标节点的ip、端口及槽号
+加入-c参数就会自动跳转至目标节点。
+
+2、ask重定向异常：
+槽正在被迁移过程中时访问key
+
+3、smart客户端（JedisCluster）：
+![image text](./pic/cluster11.png)
+
