@@ -31,7 +31,7 @@
  * 纯内存
  * 非阻塞IO：epoll模型
  * 避免了线程切换以及竞争带来的性能消耗
-注意事项：
+  注意事项：
  * 一次只运行一条命令
  * 拒绝执行长命令（会阻塞后面的操作）
  * 其实不是单线程（有独立的线程进行持久化操作）
@@ -177,7 +177,25 @@ AOF最佳策略：
 
 ![image text](./pic/AOF9.png)
 
+
+
+##主从复制
+1、可以实现一主一从和一主多从
+2、数据传输是单向的
+
+###主从复制配置
+1、slaveof 命令，在从机上执行 _slaveof 主机ip 端口号_
+2、配置
+![image text](./pic/slave.png)
+
+全量复制
+![image text](./pic/fullsave.png)
+
+部分复制
+![image text](./pic/partsave.png)
+
 ##redis sentinel
+
 ![image text](./pic/sentinel.png)
 
 
